@@ -22,4 +22,14 @@ describe "New author page", type: :feature do
     find('input[type="submit"]').click
     expect(Author.count).to eq(1)
   end
+
+  it "should return not valid" do
+    @author = Author.new(first_name: "Max", homepage: "mustermann.de")
+    expect(@author).to_not be_valid
+  end
+
+  it "should return valid" do
+    @author = Author.new(first_name: "Max", last_name: "Mustermann", homepage: "mustermann.de")
+    expect(@author).to be_valid
+  end
 end
