@@ -32,4 +32,13 @@ describe "New author page", type: :feature do
     @author = Author.new(first_name: "Max", last_name: "Mustermann", homepage: "mustermann.de")
     expect(@author).to be_valid
   end
+
+  it "should show errors when creating" do
+    visit new_author_path
+    page.fill_in 'author[first_name]', with: 'Alan'
+    page.fill_in 'author[homepage]', with: 'http://wikipedia.de/Alan_Turing'
+    find('input[type="submit"]').click
+
+    expect(page).to have_text("Last name can't be blank")
+  end
 end
