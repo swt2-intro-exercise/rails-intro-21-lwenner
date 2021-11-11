@@ -14,6 +14,11 @@ describe "New paper page", type: :feature do
     expect(page).to have_field('paper[year]')
   end
 
+  it "should have a select for authors" do
+    visit new_paper_path
+    expect(page).to have_field('paper[author_ids][]')
+  end
+
   it "form should create a new paper" do
     visit new_paper_path
     page.fill_in 'paper[title]', with: 'COMPUTING MACHINERY AND INTELLIGENCE'
