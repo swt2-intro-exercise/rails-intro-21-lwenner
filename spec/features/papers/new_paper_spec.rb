@@ -23,8 +23,13 @@ describe "New paper page", type: :feature do
     expect(Paper.count).to eq(1)
   end
 
-  it "should return not valid" do
+  it "should return not valid because title is empty" do
     @paper = Paper.new(year: 1950, venue: "Mind 49: 433-460")
+    expect(@paper).to_not be_valid
+  end
+
+  it "should return not valid because venue is empty" do
+    @paper = Paper.new(title: "COMPUTING MACHINERY AND INTELLIGENCE", year: 1950)
     expect(@paper).to_not be_valid
   end
 
@@ -40,5 +45,14 @@ describe "New paper page", type: :feature do
     find('input[type="submit"]').click
 
     expect(page).to have_text("Title can't be blank")
+  end
+
+  it "should show errors when creating" do
+    visit new_paper_path
+    page.fill_in 'paper[title]', with: 'COMPUTING MACHINERY AND INTELLIGENCE'
+    page.fill_in 'paper[year]', with: 1950
+    find('input[type="submit"]').click
+
+    expect(page).to have_text("Venue can't be blank")
   end
 end
